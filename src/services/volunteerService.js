@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:1124/api/volunteers';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1124/api/volunteers';
 
 // Get token from localStorage
 const getAuthHeaders = () => {
