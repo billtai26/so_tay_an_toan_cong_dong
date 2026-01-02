@@ -13,7 +13,7 @@ const getAuthHeader = () => {
  */
 export const createPost = async (postData) => {
   try {
-    const response = await axios.post(`${API_URL}/api/posts`, postData, {
+    const response = await axios.post(`${API_URL}/posts`, postData, {
       headers: {
         'Content-Type': 'application/json',
         ...getAuthHeader()
@@ -32,7 +32,7 @@ export const createPost = async (postData) => {
  */
 export const getApprovedPosts = async (page = 1, limit = 20) => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts`, {
+    const response = await axios.get(`${API_URL}/posts`, {
       params: { page, limit }
     });
 
@@ -48,7 +48,7 @@ export const getApprovedPosts = async (page = 1, limit = 20) => {
  */
 export const getApprovedPostsAdmin = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts/all`, {
+    const response = await axios.get(`${API_URL}/posts/all`, {
       params: { status: 'approved' },
       headers: getAuthHeader()
     });
@@ -65,7 +65,7 @@ export const getApprovedPostsAdmin = async () => {
  */
 export const getPostById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts/${id}`);
+    const response = await axios.get(`${API_URL}/posts/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching post:', error);
@@ -78,7 +78,7 @@ export const getPostById = async (id) => {
  */
 export const getMyPosts = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts/my`, {
+    const response = await axios.get(`${API_URL}/posts/my`, {
       headers: getAuthHeader()
     });
 
@@ -113,7 +113,7 @@ export const getAllPosts = async (status = null, page = 1, limit = 50) => {
     const params = { page, limit };
     if (status) params.status = status;
 
-    const response = await axios.get(`${API_URL}/api/posts/all`, {
+    const response = await axios.get(`${API_URL}/posts/all`, {
       params,
       headers: getAuthHeader()
     });
@@ -130,7 +130,7 @@ export const getAllPosts = async (status = null, page = 1, limit = 50) => {
  */
 export const getRejectedPosts = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts/all`, {
+    const response = await axios.get(`${API_URL}/posts/all`, {
       params: { status: 'rejected' },
       headers: getAuthHeader()
     });
@@ -148,7 +148,7 @@ export const getRejectedPosts = async () => {
 export const approvePost = async (postId, adminNote = '') => {
   try {
     const response = await axios.put(
-      `${API_URL}/api/posts/${postId}/approve`,
+      `${API_URL}/posts/${postId}/approve`,
       { adminNote },
       { headers: getAuthHeader() }
     );
@@ -166,7 +166,7 @@ export const approvePost = async (postId, adminNote = '') => {
 export const rejectPost = async (postId, adminNote = '') => {
   try {
     const response = await axios.put(
-      `${API_URL}/api/posts/${postId}/reject`,
+      `${API_URL}/posts/${postId}/reject`,
       { adminNote },
       { headers: getAuthHeader() }
     );
@@ -183,7 +183,7 @@ export const rejectPost = async (postId, adminNote = '') => {
  */
 export const deletePost = async (postId) => {
   try {
-    const response = await axios.delete(`${API_URL}/api/posts/${postId}`, {
+    const response = await axios.delete(`${API_URL}/posts/${postId}`, {
       headers: getAuthHeader()
     });
 
