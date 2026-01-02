@@ -61,16 +61,16 @@ const Dashboard = () => {
   const [mainTabValue, setMainTabValue] = useState(0) // 0: Reports, 1: Posts, 2: Volunteers
 
   useEffect(() => {
-    console.log('🔍 Dashboard useEffect triggered');
+    // console.log('🔍 Dashboard useEffect triggered');
     debugAuth(); // Debug authentication
     
     if (!isAdmin()) {
-      console.log('❌ Not admin, redirecting to home');
+      // console.log('❌ Not admin, redirecting to home');
       navigate('/')
       return
     }
 
-    console.log('✅ User is admin, loading data');
+    // console.log('✅ User is admin, loading data');
     loadStats()
     if (mainTabValue === 0) {
       loadReports()
