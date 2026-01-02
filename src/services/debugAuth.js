@@ -1,51 +1,41 @@
-// Debug script để kiểm tra authentication
+// Script để kiểm tra authentication (đã tắt logs)
 const debugAuth = () => {
-  console.log('🔍 Debugging Authentication...\n');
-
-  // Check localStorage
+  // Kiểm tra localStorage
   const token = localStorage.getItem('token');
   const userStr = localStorage.getItem('user');
-
-  console.log('📦 localStorage:');
-  console.log('  Token:', token ? `${token.substring(0, 20)}...` : 'null');
-  console.log('  User string:', userStr);
 
   if (userStr) {
     try {
       const user = JSON.parse(userStr);
-      console.log('\n👤 Parsed user object:');
-      console.log('  ID:', user._id);
-      console.log('  Username:', user.username);
-      console.log('  Email:', user.email);
-      console.log('  Role:', user.role);
 
-      // Check isAdmin logic
+      // Logic kiểm tra isAdmin
       const isAdmin = user && user.role === 'admin';
-      console.log('\n✅ isAdmin check:', isAdmin);
 
-      if (isAdmin) {
-        console.log('🎉 User is admin - should access Dashboard');
-      } else {
-        console.log('❌ User is not admin - will be redirected');
-      }
+      // Trả về kết quả thay vì log ra console
+      return {
+        isAuthenticated: !!token,
+        user,
+        isAdmin,
+        status: isAdmin ? 'Admin access' : 'Regular user'
+      };
     } catch (e) {
-      console.log('\n❌ Error parsing user data:', e.message);
+      return { error: 'Error parsing user data', message: e.message };
     }
-  } else {
-    console.log('\n❌ No user data in localStorage');
   }
 
-  console.log('\n💡 Tips:');
-  console.log('1. Make sure you logged in with admin account');
-  console.log('2. Check that login response includes role field');
-  console.log('3. Try clearing localStorage and logging in again');
+  return {
+    isAuthenticated: !!token,
+    user: null,
+    isAdmin: false,
+    status: 'No user data'
+  };
 };
 
-// Run debug
+// Thực thi hàm (không còn in gì ra console)
 debugAuth();
 
-// Also expose for browser console
+// Expose cho browser console (có thể gọi window.debugAuth() để xem kết quả trả về)
 window.debugAuth = debugAuth;
 
-// Export for ESM imports
+// Export cho ESM imports
 export { debugAuth };

@@ -94,7 +94,7 @@ export const getMyPosts = async () => {
  */
 export const getPendingPosts = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts/pending`, {
+    const response = await axios.get(`${API_URL}/posts/pending`, {
       headers: getAuthHeader()
     });
 
