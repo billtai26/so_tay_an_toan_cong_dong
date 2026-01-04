@@ -1,9 +1,12 @@
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Paper, 
+import {
+  Container,
+  Typography,
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -62,8 +65,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     // console.log('🔍 Dashboard useEffect triggered');
-    debugAuth(); // Debug authentication
-    
+    debugAuth() // Debug authentication
+
     if (!isAdmin()) {
       // console.log('❌ Not admin, redirecting to home');
       navigate('/')
@@ -94,7 +97,7 @@ const Dashboard = () => {
   const loadReports = async () => {
     setLoading(true)
     setError('')
-    
+
     try {
       let result
       if (tabValue === 0) {
@@ -104,7 +107,7 @@ const Dashboard = () => {
       } else {
         result = await getAllReports('rejected')
       }
-      
+
       setReports(result.data || [])
     } catch (err) {
       setError(err.message || 'Không thể tải danh sách báo cáo')
@@ -116,7 +119,7 @@ const Dashboard = () => {
   const loadPosts = async () => {
     setLoading(true)
     setError('')
-    
+
     try {
       const result = await getPendingPosts()
       setPosts(result.data || [])
@@ -160,7 +163,7 @@ const Dashboard = () => {
         })
         loadReports()
       }
-      
+
       handleCloseDialog()
     } catch (err) {
       setError(err.message || 'Phê duyệt thất bại')
@@ -178,7 +181,7 @@ const Dashboard = () => {
         })
         loadReports()
       }
-      
+
       handleCloseDialog()
     } catch (err) {
       setError(err.message || 'Từ chối thất bại')
@@ -192,9 +195,9 @@ const Dashboard = () => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8 }}>
       <Container maxWidth="lg">
-        <Typography 
-          variant="h3" 
-          sx={{ 
+        <Typography
+          variant="h3"
+          sx={{
             fontWeight: 900,
             mb: 6,
             textAlign: 'center',
@@ -280,7 +283,7 @@ const Dashboard = () => {
           >
             Quản lý Báo cáo
           </Button>
-          
+
           <Button
             component={Link}
             to="/admin/events"
@@ -316,6 +319,23 @@ const Dashboard = () => {
           >
             Quản lý Cộng đồng
           </Button>
+          <Button
+            component={Link}
+            to="/admin/users"
+            variant="outlined"
+            startIcon={<PeopleIcon />}
+            endIcon={<ArrowForwardIcon />}
+            sx={{
+              color: '#e84393',
+              borderColor: '#e84393',
+              '&:hover': {
+                bgcolor: '#fd79a8',
+                borderColor: '#fd79a8'
+              }
+            }}
+          >
+            Quản lý người dùng
+          </Button>
         </Box>
 
         {error && (
@@ -326,12 +346,12 @@ const Dashboard = () => {
 
         {/* Main Tabs: Reports vs Posts */}
         <Box sx={{ borderBottom: 2, borderColor: '#475569', mb: 4 }}>
-          <Tabs 
-            value={mainTabValue} 
+          <Tabs
+            value={mainTabValue}
             onChange={(e, newValue) => setMainTabValue(newValue)}
             sx={{
-              '& .MuiTab-root': { 
-                color: '#94a3b8', 
+              '& .MuiTab-root': {
+                color: '#94a3b8',
                 fontWeight: 700,
                 fontSize: '1rem',
                 px: 4,
@@ -351,8 +371,8 @@ const Dashboard = () => {
         {mainTabValue === 0 && (
           <>
             <Box sx={{ borderBottom: 1, borderColor: '#475569', mb: 3 }}>
-              <Tabs 
-                value={tabValue} 
+              <Tabs
+                value={tabValue}
                 onChange={(e, newValue) => setTabValue(newValue)}
                 sx={{
                   '& .MuiTab-root': { color: '#94a3b8', fontWeight: 600 },
@@ -366,9 +386,9 @@ const Dashboard = () => {
               </Tabs>
             </Box>
 
-            <Paper 
+            <Paper
               elevation={24}
-              sx={{ 
+              sx={{
                 bgcolor: '#1e293b',
                 borderRadius: 2,
                 overflow: 'hidden'
@@ -401,7 +421,7 @@ const Dashboard = () => {
                     </TableHead>
                     <TableBody>
                       {reports.map((report) => (
-                        <TableRow 
+                        <TableRow
                           key={report._id}
                           sx={{ '&:hover': { bgcolor: 'rgba(6, 182, 212, 0.05)' } }}
                         >
@@ -422,14 +442,14 @@ const Dashboard = () => {
                             {formatDate(report.createdAt)}
                           </TableCell>
                           <TableCell>
-                            <Chip 
+                            <Chip
                               label={
                                 report.status === 'pending' ? 'Chờ duyệt' :
-                                report.status === 'approved' ? 'Đã duyệt' : 'Đã từ chối'
+                                  report.status === 'approved' ? 'Đã duyệt' : 'Đã từ chối'
                               }
                               color={
                                 report.status === 'pending' ? 'warning' :
-                                report.status === 'approved' ? 'success' : 'error'
+                                  report.status === 'approved' ? 'success' : 'error'
                               }
                               size="small"
                             />
@@ -552,8 +572,8 @@ const Dashboard = () => {
           </Paper>
         )}
 
-        <Dialog 
-          open={dialogOpen} 
+        <Dialog
+          open={dialogOpen}
           onClose={handleCloseDialog}
           maxWidth="sm"
           fullWidth
@@ -565,7 +585,7 @@ const Dashboard = () => {
           }}
         >
           <DialogTitle>
-            {selectedPost 
+            {selectedPost
               ? (dialogType === 'approve' ? '✅ Phê duyệt bài viết' : '❌ Từ chối bài viết')
               : (dialogType === 'approve' ? '✅ Phê duyệt báo cáo' : '❌ Từ chối báo cáo')
             }
@@ -594,7 +614,7 @@ const Dashboard = () => {
                   label="Mức độ nguy hiểm"
                   value={severity}
                   onChange={(e) => setSeverity(e.target.value)}
-                  sx={{ 
+                  sx={{
                     mb: 2,
                     '& .MuiOutlinedInput-root': {
                       color: '#e2e8f0',
@@ -632,7 +652,7 @@ const Dashboard = () => {
             <Button onClick={handleCloseDialog} sx={{ color: '#94a3b8' }}>
               Hủy
             </Button>
-            <Button 
+            <Button
               onClick={dialogType === 'approve' ? handleApprove : handleReject}
               variant="contained"
               color={dialogType === 'approve' ? 'success' : 'error'}

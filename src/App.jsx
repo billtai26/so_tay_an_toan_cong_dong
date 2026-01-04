@@ -25,10 +25,11 @@ import Statistics from './pages/Statistics'
 import Newsfeed from './pages/Newsfeed'
 import BlacklistManagement from './pages/BlacklistManagement'
 import NewsfeedManagement from './pages/NewsfeedManagement'
+import UserManagement from './pages/UserManagement'
 
 function AnimatedRoutes() {
   const location = useLocation()
-  
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
@@ -53,6 +54,7 @@ function AnimatedRoutes() {
         <Route path="/admin/blacklist" element={<BlacklistManagement />} />
         <Route path="/admin/statistics" element={<Statistics />} />
         <Route path="/admin/newsfeed" element={<NewsfeedManagement />} />
+        <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/newsfeed" element={<Newsfeed />} />
         <Route path="/report" element={<RequestForm />} />
       </Routes>
