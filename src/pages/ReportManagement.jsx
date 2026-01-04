@@ -35,8 +35,11 @@ import ReportIcon from '@mui/icons-material/Report'
 import { getAllReports, updateReportStatus, deleteReport } from '../services/reportService'
 import FloatingParticles from '../components/FloatingParticles'
 import PageTransition from '../components/PageTransition'
+import { useNavigate } from 'react-router-dom'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const ReportManagement = () => {
+  const navigate = useNavigate()
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -120,29 +123,29 @@ const ReportManagement = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'pending': return 'warning'
-      case 'approved': return 'success'
-      case 'rejected': return 'error'
-      default: return 'default'
+    case 'pending': return 'warning'
+    case 'approved': return 'success'
+    case 'rejected': return 'error'
+    default: return 'default'
     }
   }
 
   const getStatusText = (status) => {
     switch (status) {
-      case 'pending': return 'Chờ xử lý'
-      case 'approved': return 'Đã duyệt'
-      case 'rejected': return 'Từ chối'
-      default: return status
+    case 'pending': return 'Chờ xử lý'
+    case 'approved': return 'Đã duyệt'
+    case 'rejected': return 'Từ chối'
+    default: return status
     }
   }
 
   // Filter reports
   const filteredReports = reports.filter(report => {
-    const matchesSearch = 
+    const matchesSearch =
       report.url?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.reason?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       report.reporterEmail?.toLowerCase().includes(searchQuery.toLowerCase())
-    
+
     const matchesStatus = statusFilter === 'all' || report.status === statusFilter
 
     return matchesSearch && matchesStatus
@@ -164,6 +167,25 @@ const ReportManagement = () => {
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8, position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles count={25} />
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Nút Quay lại Dashboard */}
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/dashboard')} // Đường dẫn đến trang dashboard admin
+            sx={{
+              mb: 3,
+              textTransform: 'none',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.3)',
+              color: '#fff',
+              '&:hover': {
+                borderColor: '#10b981',
+                bgcolor: 'rgba(16, 185, 129, 0.1)'
+              }
+            }}
+          >
+                Quay lại Dashboard
+          </Button>
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -171,11 +193,11 @@ const ReportManagement = () => {
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 6 }}>
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: [0, -10, 10, 0],
                   scale: [1, 1.1, 1]
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   repeatDelay: 3
@@ -234,7 +256,7 @@ const ReportManagement = () => {
                   )
                 }}
               />
-              
+
               <FormControl sx={{ minWidth: 200 }}>
                 <InputLabel sx={{ color: '#94a3b8' }}>Trạng thái</InputLabel>
                 <Select
@@ -272,9 +294,9 @@ const ReportManagement = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <TableContainer 
-                  component={Paper} 
-                  sx={{ 
+                <TableContainer
+                  component={Paper}
+                  sx={{
                     bgcolor: 'rgba(30, 41, 59, 0.8)',
                     backdropFilter: 'blur(10px)',
                     border: '1px solid rgba(148, 163, 184, 0.1)'
@@ -326,7 +348,7 @@ const ReportManagement = () => {
                               {report.reason}
                             </TableCell>
                             <TableCell>
-                              <Chip 
+                              <Chip
                                 label={getStatusText(report.status)}
                                 color={getStatusColor(report.status)}
                                 size="small"
@@ -360,9 +382,9 @@ const ReportManagement = () => {
 
               {totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                  <Pagination 
-                    count={totalPages} 
-                    page={currentPage} 
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
                     onChange={handlePageChange}
                     size="large"
                     sx={{
@@ -387,8 +409,8 @@ const ReportManagement = () => {
           )}
 
           {/* Edit Dialog */}
-          <Dialog 
-            open={editDialogOpen} 
+          <Dialog
+            open={editDialogOpen}
             onClose={handleEditClose}
             maxWidth="sm"
             fullWidth
@@ -444,8 +466,8 @@ const ReportManagement = () => {
               <Button onClick={handleEditClose} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleEditSubmit} 
+              <Button
+                onClick={handleEditSubmit}
                 variant="contained"
                 sx={{
                   bgcolor: '#f59e0b',
@@ -480,8 +502,8 @@ const ReportManagement = () => {
               <Button onClick={handleDeleteClose} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleDeleteConfirm} 
+              <Button
+                onClick={handleDeleteConfirm}
                 variant="contained"
                 sx={{
                   bgcolor: '#ef4444',

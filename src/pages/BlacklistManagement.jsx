@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Paper, 
+import {
+  Container,
+  Typography,
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -31,16 +31,17 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import SearchIcon from '@mui/icons-material/Search'
 import WarningIcon from '@mui/icons-material/Warning'
 import ShieldIcon from '@mui/icons-material/Shield'
-import { 
-  getAllBlacklist, 
-  createBlacklist, 
-  updateBlacklist, 
-  deleteBlacklist 
+import {
+  getAllBlacklist,
+  createBlacklist,
+  updateBlacklist,
+  deleteBlacklist
 } from '../services/blacklistService'
 import { isAdmin } from '../services/authService'
 import { useNavigate } from 'react-router-dom'
 import { getScamTypeLabel, getDangerLevelColor } from '../utils/validation'
 import PageTransition from '../components/PageTransition'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const BlacklistManagement = () => {
   const navigate = useNavigate()
@@ -224,6 +225,25 @@ const BlacklistManagement = () => {
     <PageTransition>
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8 }}>
         <Container maxWidth="xl">
+          {/* Nút Quay lại Dashboard */}
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/dashboard')} // Đường dẫn đến trang dashboard admin
+            sx={{
+              mb: 3,
+              textTransform: 'none',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.3)',
+              color: '#fff',
+              '&:hover': {
+                borderColor: '#10b981',
+                bgcolor: 'rgba(16, 185, 129, 0.1)'
+              }
+            }}
+          >
+      Quay lại Dashboard
+          </Button>
           {/* Header */}
           <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -349,9 +369,9 @@ const BlacklistManagement = () => {
                       </TableRow>
                     ) : (
                       filteredBlacklist.map((item) => (
-                        <TableRow 
+                        <TableRow
                           key={item._id}
-                          sx={{ 
+                          sx={{
                             '&:hover': { bgcolor: '#334155' },
                             transition: 'background-color 0.2s'
                           }}
@@ -441,8 +461,8 @@ const BlacklistManagement = () => {
           )}
 
           {/* Add/Edit Dialog */}
-          <Dialog 
-            open={dialogOpen} 
+          <Dialog
+            open={dialogOpen}
             onClose={handleCloseDialog}
             maxWidth="sm"
             fullWidth
@@ -532,10 +552,10 @@ const BlacklistManagement = () => {
               <Button onClick={handleCloseDialog} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleSubmit} 
+              <Button
+                onClick={handleSubmit}
                 variant="contained"
-                sx={{ 
+                sx={{
                   bgcolor: '#ef4444',
                   '&:hover': { bgcolor: '#dc2626' }
                 }}
@@ -546,8 +566,8 @@ const BlacklistManagement = () => {
           </Dialog>
 
           {/* Delete Confirmation Dialog */}
-          <Dialog 
-            open={deleteDialogOpen} 
+          <Dialog
+            open={deleteDialogOpen}
             onClose={() => setDeleteDialogOpen(false)}
             PaperProps={{
               sx: { bgcolor: '#1e293b', color: '#e2e8f0' }
@@ -568,10 +588,10 @@ const BlacklistManagement = () => {
               <Button onClick={() => setDeleteDialogOpen(false)} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleDelete} 
+              <Button
+                onClick={handleDelete}
                 variant="contained"
-                sx={{ 
+                sx={{
                   bgcolor: '#ef4444',
                   '&:hover': { bgcolor: '#dc2626' }
                 }}

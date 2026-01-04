@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { 
-  Container, 
-  Typography, 
-  Box, 
+import {
+  Container,
+  Typography,
+  Box,
   Card,
   CardContent,
   Chip,
@@ -35,10 +35,10 @@ const Newsfeed = () => {
   const loadScams = async () => {
     setLoading(true)
     setError('')
-    
+
     try {
       let result
-      
+
       if (filter === 'recent') {
         result = await getRecentScams(20)
       } else if (filter === 'type' && selectedType) {
@@ -48,7 +48,7 @@ const Newsfeed = () => {
       } else {
         result = await getRecentScams(20)
       }
-      
+
       if (result.success) {
         setScams(result.data)
       } else {
@@ -91,7 +91,7 @@ const Newsfeed = () => {
     <PageTransition>
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8, position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles count={30} />
-        
+
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 6 }}>
@@ -101,10 +101,10 @@ const Newsfeed = () => {
               transition={{ duration: 0.6 }}
             >
               <NewspaperIcon sx={{ fontSize: 64, color: '#06b6d4', mb: 2 }} />
-              <Typography 
-                variant="h3" 
-                sx={{ 
-                  fontWeight: 900, 
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 900,
                   color: '#e2e8f0',
                   mb: 2
                 }}
@@ -228,8 +228,8 @@ const Newsfeed = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
                 >
-                  <Card sx={{ 
-                    bgcolor: '#1e293b', 
+                  <Card sx={{
+                    bgcolor: '#1e293b',
                     border: '1px solid #475569',
                     '&:hover': {
                       borderColor: '#06b6d4',
@@ -240,10 +240,10 @@ const Newsfeed = () => {
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       {/* URL */}
-                      <Typography 
-                        variant="h6" 
-                        sx={{ 
-                          color: '#06b6d4', 
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: '#06b6d4',
                           mb: 2,
                           wordBreak: 'break-all',
                           fontWeight: 600

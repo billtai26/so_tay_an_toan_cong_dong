@@ -31,8 +31,11 @@ import PeopleIcon from '@mui/icons-material/People'
 import { getPendingPosts, approvePost, rejectPost, getApprovedPostsAdmin, getRejectedPosts, deletePost } from '../services/postService'
 import FloatingParticles from '../components/FloatingParticles'
 import PageTransition from '../components/PageTransition'
+import { useNavigate } from 'react-router-dom'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const CommunityManagement = () => {
+  const navigate = useNavigate()
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -148,6 +151,25 @@ const CommunityManagement = () => {
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8, position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles count={25} />
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Nút Quay lại Dashboard */}
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/dashboard')} // Đường dẫn đến trang dashboard admin
+            sx={{
+              mb: 3,
+              textTransform: 'none',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.3)',
+              color: '#fff',
+              '&:hover': {
+                borderColor: '#10b981',
+                bgcolor: 'rgba(16, 185, 129, 0.1)'
+              }
+            }}
+          >
+                Quay lại Dashboard
+          </Button>
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}

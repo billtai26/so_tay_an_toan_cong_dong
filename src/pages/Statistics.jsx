@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { 
-  Container, 
-  Typography, 
-  Grid, 
-  Card, 
-  CardContent, 
-  Box, 
+import {
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Box,
   Paper,
   CircularProgress,
   Alert
@@ -24,12 +24,14 @@ import FloatingParticles from '../components/FloatingParticles'
 import PageTransition from '../components/PageTransition'
 import { isAdmin } from '../services/authService'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const Statistics = () => {
   const navigate = useNavigate()
   const [stats, setStats] = useState(null)
   const [trending, setTrending] = useState([])
-  const [reportStats, setReportStats] = useState(null)
+  const [setReportStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -44,14 +46,14 @@ const Statistics = () => {
   const loadData = async () => {
     setLoading(true)
     setError('')
-    
+
     try {
       const [statsResult, trendingResult, reportStatsResult] = await Promise.all([
         getStatistics(),
         getTrendingScams(7),
         getReportStats()
       ])
-      
+
       if (statsResult.success) setStats(statsResult.data)
       if (trendingResult.success) setTrending(trendingResult.data)
       if (reportStatsResult.success) setReportStats(reportStatsResult.data)
@@ -64,12 +66,12 @@ const Statistics = () => {
 
   if (loading) {
     return (
-      <Box sx={{ 
-        minHeight: '100vh', 
-        bgcolor: '#0f172a', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center' 
+      <Box sx={{
+        minHeight: '100vh',
+        bgcolor: '#0f172a',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}>
         <CircularProgress sx={{ color: '#06b6d4' }} />
       </Box>
@@ -80,8 +82,27 @@ const Statistics = () => {
     <PageTransition>
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8, position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles count={30} />
-        
+
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Nút Quay lại Dashboard */}
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/dashboard')} // Đường dẫn đến trang dashboard admin
+            sx={{
+              mb: 3,
+              textTransform: 'none',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.3)',
+              color: '#fff',
+              '&:hover': {
+                borderColor: '#10b981',
+                bgcolor: 'rgba(16, 185, 129, 0.1)'
+              }
+            }}
+          >
+      Quay lại Dashboard
+          </Button>
           {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <motion.div
@@ -90,10 +111,10 @@ const Statistics = () => {
               transition={{ duration: 0.6 }}
             >
               <AssessmentIcon sx={{ fontSize: 64, color: '#06b6d4', mb: 2 }} />
-              <Typography 
-                variant="h3" 
-                sx={{ 
-                  fontWeight: 900, 
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 900,
                   color: '#e2e8f0',
                   mb: 2
                 }}
@@ -121,8 +142,8 @@ const Statistics = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Card sx={{ 
-                    bgcolor: 'rgba(239, 68, 68, 0.1)', 
+                  <Card sx={{
+                    bgcolor: 'rgba(239, 68, 68, 0.1)',
                     border: '2px solid #ef4444',
                     height: '100%'
                   }}>
@@ -145,8 +166,8 @@ const Statistics = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                  <Card sx={{ 
-                    bgcolor: 'rgba(6, 182, 212, 0.1)', 
+                  <Card sx={{
+                    bgcolor: 'rgba(6, 182, 212, 0.1)',
                     border: '2px solid #06b6d4',
                     height: '100%'
                   }}>
@@ -169,8 +190,8 @@ const Statistics = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <Card sx={{ 
-                    bgcolor: 'rgba(245, 158, 11, 0.1)', 
+                  <Card sx={{
+                    bgcolor: 'rgba(245, 158, 11, 0.1)',
                     border: '2px solid #f59e0b',
                     height: '100%'
                   }}>
@@ -193,8 +214,8 @@ const Statistics = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <Card sx={{ 
-                    bgcolor: 'rgba(16, 185, 129, 0.1)', 
+                  <Card sx={{
+                    bgcolor: 'rgba(16, 185, 129, 0.1)',
                     border: '2px solid #10b981',
                     height: '100%'
                   }}>
@@ -222,9 +243,9 @@ const Statistics = () => {
               <Grid container spacing={2}>
                 {stats.scamsByType.map((item, index) => (
                   <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Box sx={{ 
-                      p: 2, 
-                      bgcolor: '#0f172a', 
+                    <Box sx={{
+                      p: 2,
+                      bgcolor: '#0f172a',
                       borderRadius: 2,
                       border: '1px solid #475569'
                     }}>
@@ -253,9 +274,9 @@ const Statistics = () => {
               <Grid container spacing={2}>
                 {trending.map((scam, index) => (
                   <Grid item xs={12} key={index}>
-                    <Box sx={{ 
-                      p: 3, 
-                      bgcolor: '#0f172a', 
+                    <Box sx={{
+                      p: 3,
+                      bgcolor: '#0f172a',
                       borderRadius: 2,
                       border: '1px solid #475569',
                       '&:hover': {
@@ -268,11 +289,11 @@ const Statistics = () => {
                         {scam.url}
                       </Typography>
                       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
-                        <Typography 
-                          variant="caption" 
-                          sx={{ 
-                            px: 1.5, 
-                            py: 0.5, 
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            px: 1.5,
+                            py: 0.5,
                             bgcolor: 'rgba(239, 68, 68, 0.2)',
                             color: '#ef4444',
                             borderRadius: 1,
@@ -281,11 +302,11 @@ const Statistics = () => {
                         >
                           {getScamTypeLabel(scam.scamType)}
                         </Typography>
-                        <Typography 
-                          variant="caption" 
-                          sx={{ 
-                            px: 1.5, 
-                            py: 0.5, 
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            px: 1.5,
+                            py: 0.5,
                             bgcolor: `${getDangerLevelColor(scam.dangerLevel)}33`,
                             color: getDangerLevelColor(scam.dangerLevel),
                             borderRadius: 1,

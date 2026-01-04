@@ -37,6 +37,8 @@ import ImageIcon from '@mui/icons-material/Image'
 import { getAllEvents, createEvent, updateEvent, deleteEvent } from '../services/eventService'
 import FloatingParticles from '../components/FloatingParticles'
 import PageTransition from '../components/PageTransition'
+import { useNavigate } from 'react-router-dom'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 // Component riêng cho form fields để tránh re-render
 const EventFormFields = ({ formData = {}, handleChange, handleImageChange, handleRemoveImage, imagePreview = '' }) => {
@@ -51,119 +53,18 @@ const EventFormFields = ({ formData = {}, handleChange, handleImageChange, handl
     startDate: '',
     endDate: '',
     ...formData
-  };
+  }
 
   return (
-  <>
-    <TextField
-      fullWidth
-      label="Tiêu đề *"
-      name="title"
-      value={safeFormData.title}
-      onChange={handleChange}
-      margin="normal"
-      inputProps={{ maxLength: 200 }}
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          color: '#e2e8f0',
-          '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
-          '&:hover fieldset': { borderColor: '#06b6d4' },
-          '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
-        },
-        '& .MuiInputLabel-root': { color: '#94a3b8' }
-      }}
-    />
-
-    <TextField
-      fullWidth
-      label="Mô tả ngắn *"
-      name="description"
-      value={safeFormData.description}
-      onChange={handleChange}
-      margin="normal"
-      multiline
-      rows={2}
-      inputProps={{ maxLength: 500 }}
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          color: '#e2e8f0',
-          '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
-          '&:hover fieldset': { borderColor: '#06b6d4' },
-          '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
-        },
-        '& .MuiInputLabel-root': { color: '#94a3b8' }
-      }}
-    />
-
-    <TextField
-      fullWidth
-      label="Nội dung chi tiết *"
-      name="content"
-      value={safeFormData.content}
-      onChange={handleChange}
-      margin="normal"
-      multiline
-      rows={6}
-      inputProps={{ maxLength: 5000 }}
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          color: '#e2e8f0',
-          '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
-          '&:hover fieldset': { borderColor: '#06b6d4' },
-          '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
-        },
-        '& .MuiInputLabel-root': { color: '#94a3b8' }
-      }}
-    />
-
-    <FormControl fullWidth margin="normal">
-      <InputLabel sx={{ color: '#94a3b8' }}>Trạng thái</InputLabel>
-      <Select
-        name="status"
-        value={safeFormData.status}
-        onChange={handleChange}
-        label="Trạng thái"
-        sx={{
-          color: '#e2e8f0',
-          '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
-          '&:hover fieldset': { borderColor: '#06b6d4' },
-          '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
-        }}
-      >
-        <MenuItem value="Sắp tới">Sắp tới</MenuItem>
-        <MenuItem value="Đang diễn ra">Đang diễn ra</MenuItem>
-        <MenuItem value="Đã kết thúc">Đã kết thúc</MenuItem>
-      </Select>
-    </FormControl>
-
-    <TextField
-      fullWidth
-      label="Địa điểm"
-      name="location"
-      value={safeFormData.location}
-      onChange={handleChange}
-      margin="normal"
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          color: '#e2e8f0',
-          '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
-          '&:hover fieldset': { borderColor: '#06b6d4' },
-          '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
-        },
-        '& .MuiInputLabel-root': { color: '#94a3b8' }
-      }}
-    />
-
-    <Box sx={{ display: 'flex', gap: 2 }}>
+    <>
       <TextField
         fullWidth
-        label="Ngày bắt đầu"
-        name="startDate"
-        type="date"
-        value={safeFormData.startDate}
+        label="Tiêu đề *"
+        name="title"
+        value={safeFormData.title}
         onChange={handleChange}
         margin="normal"
-        InputLabelProps={{ shrink: true }}
+        inputProps={{ maxLength: 200 }}
         sx={{
           '& .MuiOutlinedInput-root': {
             color: '#e2e8f0',
@@ -177,13 +78,14 @@ const EventFormFields = ({ formData = {}, handleChange, handleImageChange, handl
 
       <TextField
         fullWidth
-        label="Ngày kết thúc"
-        name="endDate"
-        type="date"
-        value={safeFormData.endDate}
+        label="Mô tả ngắn *"
+        name="description"
+        value={safeFormData.description}
         onChange={handleChange}
         margin="normal"
-        InputLabelProps={{ shrink: true }}
+        multiline
+        rows={2}
+        inputProps={{ maxLength: 500 }}
         sx={{
           '& .MuiOutlinedInput-root': {
             color: '#e2e8f0',
@@ -194,82 +96,183 @@ const EventFormFields = ({ formData = {}, handleChange, handleImageChange, handl
           '& .MuiInputLabel-root': { color: '#94a3b8' }
         }}
       />
-    </Box>
 
-    <Box sx={{ mt: 3 }}>
-      <Typography variant="body2" sx={{ color: '#94a3b8', mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
-        <ImageIcon sx={{ fontSize: 20 }} />
-        Thêm hình ảnh (tùy chọn)
-      </Typography>
-      
-      <Button
-        variant="outlined"
-        component="label"
-        startIcon={<ImageIcon />}
+      <TextField
+        fullWidth
+        label="Nội dung chi tiết *"
+        name="content"
+        value={safeFormData.content}
+        onChange={handleChange}
+        margin="normal"
+        multiline
+        rows={6}
+        inputProps={{ maxLength: 5000 }}
         sx={{
-          color: '#06b6d4',
-          borderColor: 'rgba(6, 182, 212, 0.5)',
-          '&:hover': {
-            borderColor: '#06b6d4',
-            bgcolor: 'rgba(6, 182, 212, 0.1)'
-          }
+          '& .MuiOutlinedInput-root': {
+            color: '#e2e8f0',
+            '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
+            '&:hover fieldset': { borderColor: '#06b6d4' },
+            '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
+          },
+          '& .MuiInputLabel-root': { color: '#94a3b8' }
         }}
-      >
-        Chọn ảnh từ thiết bị
-        <input
-          type="file"
-          hidden
-          accept="image/*"
-          onChange={handleImageChange}
+      />
+
+      <FormControl fullWidth margin="normal">
+        <InputLabel sx={{ color: '#94a3b8' }}>Trạng thái</InputLabel>
+        <Select
+          name="status"
+          value={safeFormData.status}
+          onChange={handleChange}
+          label="Trạng thái"
+          sx={{
+            color: '#e2e8f0',
+            '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
+            '&:hover fieldset': { borderColor: '#06b6d4' },
+            '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
+          }}
+        >
+          <MenuItem value="Sắp tới">Sắp tới</MenuItem>
+          <MenuItem value="Đang diễn ra">Đang diễn ra</MenuItem>
+          <MenuItem value="Đã kết thúc">Đã kết thúc</MenuItem>
+        </Select>
+      </FormControl>
+
+      <TextField
+        fullWidth
+        label="Địa điểm"
+        name="location"
+        value={safeFormData.location}
+        onChange={handleChange}
+        margin="normal"
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            color: '#e2e8f0',
+            '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
+            '&:hover fieldset': { borderColor: '#06b6d4' },
+            '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
+          },
+          '& .MuiInputLabel-root': { color: '#94a3b8' }
+        }}
+      />
+
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        <TextField
+          fullWidth
+          label="Ngày bắt đầu"
+          name="startDate"
+          type="date"
+          value={safeFormData.startDate}
+          onChange={handleChange}
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              color: '#e2e8f0',
+              '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
+              '&:hover fieldset': { borderColor: '#06b6d4' },
+              '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
+            },
+            '& .MuiInputLabel-root': { color: '#94a3b8' }
+          }}
         />
-      </Button>
-      
-      <Typography variant="caption" sx={{ color: '#64748b', ml: 2, display: 'inline' }}>
-        (Tối đa 5MB)
-      </Typography>
-    </Box>
 
-    {imagePreview && (
-      <Box sx={{ mt: 2, position: 'relative' }}>
-        <Typography variant="caption" sx={{ color: '#94a3b8', mb: 1, display: 'block' }}>
-          Xem trước hình ảnh:
-        </Typography>
-        <Box sx={{ position: 'relative', display: 'inline-block' }}>
-          <Box 
-            component="img" 
-            src={imagePreview} 
-            alt="Preview"
-            sx={{ 
-              maxWidth: '100%', 
-              maxHeight: 300, 
-              borderRadius: 2,
-              border: '2px solid rgba(6, 182, 212, 0.3)'
-            }}
-          />
-          <IconButton
-            onClick={handleRemoveImage}
-            sx={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-              bgcolor: 'rgba(0, 0, 0, 0.6)',
-              color: '#fff',
-              '&:hover': {
-                bgcolor: 'rgba(239, 68, 68, 0.8)'
-              }
-            }}
-            size="small"
-          >
-            ✕
-          </IconButton>
-        </Box>
+        <TextField
+          fullWidth
+          label="Ngày kết thúc"
+          name="endDate"
+          type="date"
+          value={safeFormData.endDate}
+          onChange={handleChange}
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              color: '#e2e8f0',
+              '& fieldset': { borderColor: 'rgba(148, 163, 184, 0.3)' },
+              '&:hover fieldset': { borderColor: '#06b6d4' },
+              '&.Mui-focused fieldset': { borderColor: '#06b6d4' }
+            },
+            '& .MuiInputLabel-root': { color: '#94a3b8' }
+          }}
+        />
       </Box>
-    )}
-  </>
-  );
+
+      <Box sx={{ mt: 3 }}>
+        <Typography variant="body2" sx={{ color: '#94a3b8', mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+          <ImageIcon sx={{ fontSize: 20 }} />
+        Thêm hình ảnh (tùy chọn)
+        </Typography>
+
+        <Button
+          variant="outlined"
+          component="label"
+          startIcon={<ImageIcon />}
+          sx={{
+            color: '#06b6d4',
+            borderColor: 'rgba(6, 182, 212, 0.5)',
+            '&:hover': {
+              borderColor: '#06b6d4',
+              bgcolor: 'rgba(6, 182, 212, 0.1)'
+            }
+          }}
+        >
+        Chọn ảnh từ thiết bị
+          <input
+            type="file"
+            hidden
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </Button>
+
+        <Typography variant="caption" sx={{ color: '#64748b', ml: 2, display: 'inline' }}>
+        (Tối đa 5MB)
+        </Typography>
+      </Box>
+
+      {imagePreview && (
+        <Box sx={{ mt: 2, position: 'relative' }}>
+          <Typography variant="caption" sx={{ color: '#94a3b8', mb: 1, display: 'block' }}>
+          Xem trước hình ảnh:
+          </Typography>
+          <Box sx={{ position: 'relative', display: 'inline-block' }}>
+            <Box
+              component="img"
+              src={imagePreview}
+              alt="Preview"
+              sx={{
+                maxWidth: '100%',
+                maxHeight: 300,
+                borderRadius: 2,
+                border: '2px solid rgba(6, 182, 212, 0.3)'
+              }}
+            />
+            <IconButton
+              onClick={handleRemoveImage}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                bgcolor: 'rgba(0, 0, 0, 0.6)',
+                color: '#fff',
+                '&:hover': {
+                  bgcolor: 'rgba(239, 68, 68, 0.8)'
+                }
+              }}
+              size="small"
+            >
+            ✕
+            </IconButton>
+          </Box>
+        </Box>
+      )}
+    </>
+  )
 }
 
 const EventManagement = () => {
+  const navigate = useNavigate()
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -460,20 +463,20 @@ const EventManagement = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Đang diễn ra': return 'success'
-      case 'Sắp tới': return 'primary'
-      case 'Đã kết thúc': return 'default'
-      default: return 'primary'
+    case 'Đang diễn ra': return 'success'
+    case 'Sắp tới': return 'primary'
+    case 'Đã kết thúc': return 'default'
+    default: return 'primary'
     }
   }
 
   // Filter events
   const filteredEvents = events.filter(event => {
-    const matchesSearch = 
+    const matchesSearch =
       event.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.location?.toLowerCase().includes(searchQuery.toLowerCase())
-    
+
     const matchesStatus = statusFilter === 'all' || event.status === statusFilter
 
     return matchesSearch && matchesStatus
@@ -495,6 +498,25 @@ const EventManagement = () => {
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8, position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles count={25} />
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Nút Quay lại Dashboard */}
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/dashboard')} // Đường dẫn đến trang dashboard admin
+            sx={{
+              mb: 3,
+              textTransform: 'none',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.3)',
+              color: '#fff',
+              '&:hover': {
+                borderColor: '#10b981',
+                bgcolor: 'rgba(16, 185, 129, 0.1)'
+              }
+            }}
+          >
+                Quay lại Dashboard
+          </Button>
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -503,11 +525,11 @@ const EventManagement = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 6, flexWrap: 'wrap', gap: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <motion.div
-                  animate={{ 
+                  animate={{
                     rotate: [0, 10, -10, 0],
                     scale: [1, 1.1, 1]
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 2,
                     repeat: Infinity,
                     repeatDelay: 3
@@ -590,7 +612,7 @@ const EventManagement = () => {
                   )
                 }}
               />
-              
+
               <FormControl sx={{ minWidth: 200 }}>
                 <InputLabel sx={{ color: '#94a3b8' }}>Trạng thái</InputLabel>
                 <Select
@@ -628,9 +650,9 @@ const EventManagement = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <TableContainer 
-                  component={Paper} 
-                  sx={{ 
+                <TableContainer
+                  component={Paper}
+                  sx={{
                     bgcolor: 'rgba(30, 41, 59, 0.8)',
                     backdropFilter: 'blur(10px)',
                     border: '1px solid rgba(148, 163, 184, 0.1)'
@@ -672,7 +694,7 @@ const EventManagement = () => {
                               {event.description}
                             </TableCell>
                             <TableCell>
-                              <Chip 
+                              <Chip
                                 label={event.status}
                                 color={getStatusColor(event.status)}
                                 size="small"
@@ -706,9 +728,9 @@ const EventManagement = () => {
 
               {totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                  <Pagination 
-                    count={totalPages} 
-                    page={currentPage} 
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
                     onChange={handlePageChange}
                     size="large"
                     sx={{
@@ -733,8 +755,8 @@ const EventManagement = () => {
           )}
 
           {/* Create Dialog */}
-          <Dialog 
-            open={createDialogOpen} 
+          <Dialog
+            open={createDialogOpen}
             onClose={handleCreateClose}
             maxWidth="md"
             fullWidth
@@ -749,7 +771,7 @@ const EventManagement = () => {
               Tạo sự kiện mới
             </DialogTitle>
             <DialogContent sx={{ pt: 3 }}>
-              <EventFormFields 
+              <EventFormFields
                 formData={formData}
                 handleChange={handleChange}
                 handleImageChange={handleImageChange}
@@ -761,8 +783,8 @@ const EventManagement = () => {
               <Button onClick={handleCreateClose} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleCreateSubmit} 
+              <Button
+                onClick={handleCreateSubmit}
                 variant="contained"
                 sx={{
                   bgcolor: '#06b6d4',
@@ -775,8 +797,8 @@ const EventManagement = () => {
           </Dialog>
 
           {/* Edit Dialog */}
-          <Dialog 
-            open={editDialogOpen} 
+          <Dialog
+            open={editDialogOpen}
             onClose={handleEditClose}
             maxWidth="md"
             fullWidth
@@ -791,7 +813,7 @@ const EventManagement = () => {
               Chỉnh sửa sự kiện
             </DialogTitle>
             <DialogContent sx={{ pt: 3 }}>
-              <EventFormFields 
+              <EventFormFields
                 formData={formData}
                 handleChange={handleChange}
                 handleImageChange={handleImageChange}
@@ -803,8 +825,8 @@ const EventManagement = () => {
               <Button onClick={handleEditClose} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleEditSubmit} 
+              <Button
+                onClick={handleEditSubmit}
                 variant="contained"
                 sx={{
                   bgcolor: '#06b6d4',
@@ -839,8 +861,8 @@ const EventManagement = () => {
               <Button onClick={handleDeleteClose} sx={{ color: '#94a3b8' }}>
                 Hủy
               </Button>
-              <Button 
-                onClick={handleDeleteConfirm} 
+              <Button
+                onClick={handleDeleteConfirm}
                 variant="contained"
                 sx={{
                   bgcolor: '#ef4444',
