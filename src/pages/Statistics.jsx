@@ -31,7 +31,7 @@ const Statistics = () => {
   const navigate = useNavigate()
   const [stats, setStats] = useState(null)
   const [trending, setTrending] = useState([])
-  const [setReportStats] = useState(null)
+  const [reportStats, setReportStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
