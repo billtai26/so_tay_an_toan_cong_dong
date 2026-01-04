@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { 
+import {
   Container, Typography, Box, Paper, TextField, Button, Stack,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Chip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions,
@@ -16,6 +16,7 @@ import { isAdmin } from '../services/authService'
 import { useNavigate } from 'react-router-dom'
 import FloatingParticles from '../components/FloatingParticles'
 import PageTransition from '../components/PageTransition'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const NewsfeedManagement = () => {
   const navigate = useNavigate()
@@ -70,12 +71,12 @@ const NewsfeedManagement = () => {
     try {
       const result = await getAllBlacklist({ page, limit: 20 })
       console.log('getAllBlacklist result:', result)
-      
+
       if (result.success) {
         // Backend trả về result.data (array) và result.pagination
         const itemsData = result.data || []
         const paginationData = result.pagination || {}
-        
+
         setItems(Array.isArray(itemsData) ? itemsData : [])
         setTotalPages(paginationData.totalPages || 1)
       } else {
@@ -183,9 +184,9 @@ const NewsfeedManagement = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('vi-VN', { 
-      year: 'numeric', 
-      month: '2-digit', 
+    return date.toLocaleDateString('vi-VN', {
+      year: 'numeric',
+      month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit'
@@ -196,8 +197,27 @@ const NewsfeedManagement = () => {
     <PageTransition>
       <Box sx={{ minHeight: '100vh', bgcolor: '#0f172a', py: 8, position: 'relative', overflow: 'hidden' }}>
         <FloatingParticles count={20} />
-        
+
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Nút Quay lại Dashboard */}
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/dashboard')} // Đường dẫn đến trang dashboard admin
+            sx={{
+              mb: 3,
+              textTransform: 'none',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.3)',
+              color: '#fff',
+              '&:hover': {
+                borderColor: '#10b981',
+                bgcolor: 'rgba(16, 185, 129, 0.1)'
+              }
+            }}
+          >
+             Quay lại Dashboard
+          </Button>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -274,17 +294,17 @@ const NewsfeedManagement = () => {
                             {item.url}
                           </TableCell>
                           <TableCell>
-                            <Chip 
-                              label={getScamLabel(item.scamType)} 
+                            <Chip
+                              label={getScamLabel(item.scamType)}
                               size="small"
                               sx={{ bgcolor: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6', fontWeight: 600 }}
                             />
                           </TableCell>
                           <TableCell>
-                            <Chip 
+                            <Chip
                               label={dangerLevels.find(d => d.value === item.dangerLevel)?.label || item.dangerLevel}
                               size="small"
-                              sx={{ 
+                              sx={{
                                 bgcolor: `${getDangerColor(item.dangerLevel)}20`,
                                 color: getDangerColor(item.dangerLevel),
                                 fontWeight: 700
@@ -298,13 +318,13 @@ const NewsfeedManagement = () => {
                             {formatDate(item.createdAt)}
                           </TableCell>
                           <TableCell align="right">
-                            <IconButton 
+                            <IconButton
                               onClick={() => handleOpenDialog(item)}
                               sx={{ color: '#3b82f6', '&:hover': { bgcolor: 'rgba(59, 130, 246, 0.1)' } }}
                             >
                               <EditIcon />
                             </IconButton>
-                            <IconButton 
+                            <IconButton
                               onClick={() => handleDelete(item._id)}
                               sx={{ color: '#ef4444', '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.1)' } }}
                             >
@@ -319,9 +339,9 @@ const NewsfeedManagement = () => {
 
                 {totalPages > 1 && (
                   <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
-                    <Pagination 
-                      count={totalPages} 
-                      page={page} 
+                    <Pagination
+                      count={totalPages}
+                      page={page}
                       onChange={(e, value) => setPage(value)}
                       sx={{
                         '& .MuiPaginationItem-root': { color: '#94a3b8' },
@@ -336,8 +356,8 @@ const NewsfeedManagement = () => {
         </Container>
 
         {/* Dialog thêm/sửa */}
-        <Dialog 
-          open={openDialog} 
+        <Dialog
+          open={openDialog}
           onClose={handleCloseDialog}
           maxWidth="sm"
           fullWidth
@@ -393,8 +413,8 @@ const NewsfeedManagement = () => {
                 >
                   {dangerLevels.map(level => (
                     <MenuItem key={level.value} value={level.value}>
-                      <Chip 
-                        label={level.label} 
+                      <Chip
+                        label={level.label}
                         size="small"
                         sx={{ bgcolor: `${level.color}20`, color: level.color, fontWeight: 600 }}
                       />
@@ -436,12 +456,12 @@ const NewsfeedManagement = () => {
             <Button onClick={handleCloseDialog} sx={{ color: '#94a3b8' }}>
               Hủy
             </Button>
-            <Button 
-              onClick={handleSubmit} 
+            <Button
+              onClick={handleSubmit}
               variant="contained"
               disabled={loading}
-              sx={{ 
-                bgcolor: '#10b981', 
+              sx={{
+                bgcolor: '#10b981',
                 '&:hover': { bgcolor: '#059669' },
                 minWidth: 120
               }}
